@@ -1,61 +1,57 @@
-Reading Stars
-=============
+# Reading Stars 🌟
 
-Turn minutes read into stars, badges, and class/team goals with simple student, parent, and teacher views.
+A kid-friendly web app that turns reading time into stars, badges, and team goals with a privacy-first approach.
 
-Quick Start
------------
+## Features
 
-1) Install Node 18+ and npm.
+### For Kids 👧👦
+- **Big Start Button**: Easy timer to track reading sessions
+- **Quick Add**: Manually add minutes and pages read
+- **Stars System**: Earn 1 star for every 5 minutes of reading
+- **Daily Streaks**: Build reading habits with streak tracking
+- **Fun Badges**: Unlock achievements like "Rainy Day Reader" and "Lights-Out Legend"
+- **Team Goals**: Work together with classmates/siblings (anonymous avatars)
+- **Privacy-First**: Choose an animal + color name (no real names displayed)
 
-2) Install dependencies and start:
+### For Parents/Teachers 👨‍👩‍👧‍👦
+- **Reading Logs**: Review and approve reading sessions
+- **Custom Rewards**: Set rewards for star milestones (movie night, pick dinner, etc.)
+- **Team Management**: Set weekly reading goals for the group
+- **Edit/Delete**: Modify or remove reading entries as needed
 
-```
-npm install
-npm start
-```
+## How to Use
 
-The server runs on http://localhost:3000 and serves the web UI.
+1. **Open `index.html`** in any web browser
+2. **Choose Your Avatar**: Click the settings gear to pick your animal and color
+3. **Start Reading**: Use the big "Start Reading!" button or quick-add minutes/pages
+4. **Earn Badges**: Complete reading challenges to unlock fun badges
+5. **Parent View**: Click "Parent View" button to access the dashboard
 
-Demo Logins
------------
+## Badges Available
 
-- Student: `alice` / `pass`
-- Student: `bob` / `pass`
-- Student: `cara` / `pass`
-- Student: `diego` / `pass`
-- Teacher: `teacher` / `pass`
-- Parent: `parent` / `pass`
+- 🌅 **Early Bird**: Read before 9 AM
+- 🌙 **Lights-Out Legend**: Read after 8 PM  
+- 🌧️ **Rainy Day Reader**: Read on a rainy day
+- 🔥 **Three in a Row**: Read 3 days in a row
+- ⚡ **Week Warrior**: Read 7 days in a row
+- 🏃 **Reading Marathon**: Read for 60 minutes in one session
+- 💯 **Century Club**: Read 100 total minutes
+- 🐛 **Bookworm**: Read 500 total minutes
 
-API Overview
-------------
+## Privacy & Safety
 
-- POST `/api/auth/login` → returns `{ user, token }` where `token` is `x-user-id`
-- GET `/api/auth/me` → returns `{ user }` for current token
-- GET `/api/logs` → list logs visible to current user
-- POST `/api/logs` → create reading log (student or parent)
-- POST `/api/logs/:id/approve` → approve/reject (teacher)
-- GET `/api/summary/student/:studentId` → totals, stars, badges
-- GET `/api/summary/class/:classId` → class totals, per-student/team, goal progress
-- GET `/api/summary/team/:teamId` → team totals and goal progress
+- No personal information is stored or shared
+- All data stays on your device (localStorage)
+- Kids use anonymous animal avatars
+- No internet connection required after loading
 
-Stars & Badges
---------------
+## Technical Details
 
-- Stars: 1 star per 10 approved minutes
-- Badges: awarded when total approved minutes meet thresholds (see `db/seed.sql`)
+- Pure HTML, CSS, and JavaScript (no frameworks)
+- Responsive design works on tablets and phones
+- Data persists between sessions using localStorage
+- Works offline once loaded
 
-Data & Persistence
-------------------
+## Getting Started
 
-- SQLite database file: `data.sqlite` (auto-created on first run)
-- Schema: `db/schema.sql`
-- Seed data: `db/seed.sql`
-
-Notes
------
-
-- This demo uses a very simple header-based auth via `x-user-id` for ease of testing. Replace with real auth for production.
-
-# Read Rocket
-MVP for a kids’ readathon coach app
+Simply open `index.html` in your web browser and start reading! 📚✨

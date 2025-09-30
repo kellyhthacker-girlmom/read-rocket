@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Stars - Track Your Reading Adventure!</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="star">⭐</span>
+                <h1>Reading Stars</h1>
+            </div>
+            <div class="user-info">
+                <div class="avatar" id="userAvatar">🐻</div>
+                <span class="username" id="username">Brown Bear</span>
+                <button class="settings-btn" onclick="showSettings()">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Reading Timer Section -->
+            <section class="timer-section">
+                <div class="timer-display">
+                    <div class="time" id="timerDisplay">00:00</div>
+                    <div class="status" id="timerStatus">Ready to read!</div>
+                </div>
+                
+                <div class="timer-controls">
+                    <button class="start-btn" id="startBtn" onclick="toggleTimer()">
+                        <span class="btn-icon">📚</span>
+                        Start Reading!
+                    </button>
+                    
+                    <div class="quick-add">
+                        <h3>Quick Add</h3>
+                        <div class="quick-add-controls">
+                            <input type="number" id="quickMinutes" placeholder="Minutes" min="1" max="300">
+                            <input type="number" id="quickPages" placeholder="Pages" min="1" max="100">
+                            <button onclick="quickAdd()">Add ⭐</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value" id="totalStars">0</div>
+                    <div class="stat-label">Stars Earned</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value" id="currentStreak">0</div>
+                    <div class="stat-label">Day Streak</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-value" id="totalMinutes">0</div>
+                    <div class="stat-label">Minutes Read</div>
+                </div>
+            </section>
+
+            <!-- Badges Section -->
+            <section class="badges-section">
+                <h2>Your Badges</h2>
+                <div class="badges-grid" id="badgesGrid">
+                    <!-- Badges will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Team Goals Section -->
+            <section class="team-section">
+                <h2>Team Reading Goal</h2>
+                <div class="team-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="teamProgress"></div>
+                        <div class="progress-text">
+                            <span id="teamMinutes">0</span> / <span id="teamGoal">1000</span> minutes
+                        </div>
+                    </div>
+                    <div class="team-avatars" id="teamAvatars">
+                        <!-- Team member avatars will be populated here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Parent/Teacher View Toggle -->
+        <div class="parent-toggle">
+            <button onclick="toggleParentView()" id="parentToggle">Parent View 👨‍👩‍👧‍👦</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <h2>Choose Your Reading Avatar</h2>
+            <div class="avatar-selection">
+                <div class="animal-grid">
+                    <button class="avatar-option" onclick="selectAvatar('🐻', 'Bear')">🐻 Bear</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐱', 'Cat')">🐱 Cat</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐶', 'Dog')">🐶 Dog</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐸', 'Frog')">🐸 Frog</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐧', 'Penguin')">🐧 Penguin</button>
+                    <button class="avatar-option" onclick="selectAvatar('🦊', 'Fox')">🦊 Fox</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐨', 'Koala')">🐨 Koala</button>
+                    <button class="avatar-option" onclick="selectAvatar('🐯', 'Tiger')">🐯 Tiger</button>
+                </div>
+                <div class="color-grid">
+                    <button class="color-option red" onclick="selectColor('Red')">Red</button>
+                    <button class="color-option blue" onclick="selectColor('Blue')">Blue</button>
+                    <button class="color-option green" onclick="selectColor('Green')">Green</button>
+                    <button class="color-option purple" onclick="selectColor('Purple')">Purple</button>
+                    <button class="color-option orange" onclick="selectColor('Orange')">Orange</button>
+                    <button class="color-option pink" onclick="selectColor('Pink')">Pink</button>
+                </div>
+            </div>
+            <button class="close-btn" onclick="closeSettings()">Done!</button>
+        </div>
+    </div>
+
+    <!-- Parent View Modal -->
+    <div class="modal" id="parentModal">
+        <div class="modal-content parent-view">
+            <h2>Parent/Teacher Dashboard</h2>
+            
+            <div class="parent-tabs">
+                <button class="tab-btn active" onclick="showParentTab('logs')">Reading Logs</button>
+                <button class="tab-btn" onclick="showParentTab('rewards')">Rewards</button>
+                <button class="tab-btn" onclick="showParentTab('goals')">Team Goals</button>
+            </div>
+
+            <div class="parent-tab-content" id="logsTab">
+                <h3>Recent Reading Sessions</h3>
+                <div class="logs-list" id="logsList">
+                    <!-- Reading logs will be populated here -->
+                </div>
+            </div>
+
+            <div class="parent-tab-content" id="rewardsTab" style="display: none;">
+                <h3>Set Rewards</h3>
+                <div class="rewards-setup">
+                    <div class="reward-item">
+                        <label>10 Stars Reward:</label>
+                        <input type="text" id="reward10" placeholder="e.g., Extra 15 minutes screen time">
+                    </div>
+                    <div class="reward-item">
+                        <label>25 Stars Reward:</label>
+                        <input type="text" id="reward25" placeholder="e.g., Pick tonight's dinner">
+                    </div>
+                    <div class="reward-item">
+                        <label>50 Stars Reward:</label>
+                        <input type="text" id="reward50" placeholder="e.g., Movie night choice">
+                    </div>
+                    <button onclick="saveRewards()">Save Rewards</button>
+                </div>
+            </div>
+
+            <div class="parent-tab-content" id="goalsTab" style="display: none;">
+                <h3>Team Goal Settings</h3>
+                <div class="goal-settings">
+                    <label>Weekly Team Goal (minutes):</label>
+                    <input type="number" id="teamGoalInput" min="100" max="5000" step="50">
+                    <button onclick="updateTeamGoal()">Update Goal</button>
+                </div>
+            </div>
+
+            <button class="close-btn" onclick="closeParentView()">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
