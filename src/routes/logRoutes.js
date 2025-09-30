@@ -57,19 +57,43 @@ router.post('/', authRequired, (req, res) => {
 });
 
 // Approve or reject (teacher only)
-router.post('/:id/approve', authRequired, requireRole('teacher'), (req, res) => {
+router.post('/:id/approve', authRequired, requireRole('teacher','parent'), (req, res) => {
   const db = getDb();
   const { decision } = req.body; // 'approved' or 'rejected'
   if (!['approved', 'rejected'].includes(decision)) return res.status(400).json({ error: 'decision must be approved|rejected' });
-  const log = db.prepare('SELECT rl.*, s.class_id FROM reading_logs rl JOIN users s ON s.id = rl.student_id WHERE rl.id = ?').get(Number(req.params.id));
+  const log = db.prepare('SELECT rl.*, s.class_id, s.parent_id FROM reading_logs rl JOIN users s ON s.id = rl.student_id WHERE rl.id = ?').get(Number(req.params.id));
   if (!log) return res.status(404).json({ error: 'Log not found' });
-  if (log.class_id !== req.user.class_id) return res.status(403).json({ error: 'Not in your class' });
+  if (req.user.role === 'teacher') {
+    if (log.class_id !== req.user.class_id) return res.status(403).json({ error: 'Not in your class' });
+  } else if (req.user.role === 'parent') {
+    if (log.parent_id !== req.user.id) return res.status(403).json({ error: 'Not your child' });
+  }
   const nowIso = new Date().toISOString();
   db.prepare('UPDATE reading_logs SET status = ?, approved_by = ?, approved_at = ? WHERE id = ?').run(decision, req.user.id, nowIso, log.id);
   if (decision === 'approved') {
     recalculateBadgesForStudent(log.student_id);
   }
   const updated = db.prepare('SELECT * FROM reading_logs WHERE id = ?').get(log.id);
+  res.json({ log: updated });
+});
+
+// Edit a log (only while pending). Student can edit own pending logs; parent can edit child pending logs
+router.put('/:id', authRequired, (req, res) => {
+  const db = getDb();
+  const id = Number(req.params.id);
+  const { minutes, loggedAt, note } = req.body;
+  const log = db.prepare('SELECT rl.*, s.parent_id FROM reading_logs rl JOIN users s ON s.id = rl.student_id WHERE rl.id = ?').get(id);
+  if (!log) return res.status(404).json({ error: 'Log not found' });
+  if (log.status !== 'pending') return res.status(400).json({ error: 'Only pending logs can be edited' });
+  if (req.user.role === 'student' && req.user.id !== log.student_id) return res.status(403).json({ error: 'Forbidden' });
+  if (req.user.role === 'parent' && log.parent_id !== req.user.id) return res.status(403).json({ error: 'Forbidden' });
+  if (!['student','parent'].includes(req.user.role)) return res.status(403).json({ error: 'Forbidden' });
+  const nextMinutes = minutes == null ? log.minutes : Number(minutes);
+  if (nextMinutes < 0) return res.status(400).json({ error: 'minutes must be >= 0' });
+  const nextDate = loggedAt || log.logged_at;
+  const nextNote = note === undefined ? log.note : (note || null);
+  db.prepare('UPDATE reading_logs SET minutes = ?, logged_at = ?, note = ? WHERE id = ?').run(nextMinutes, nextDate, nextNote, id);
+  const updated = db.prepare('SELECT * FROM reading_logs WHERE id = ?').get(id);
   res.json({ log: updated });
 });
 

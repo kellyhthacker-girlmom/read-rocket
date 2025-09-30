@@ -24,7 +24,7 @@ router.get('/class/:classId', authRequired, (req, res) => {
   const db = getDb();
   const students = db.prepare('SELECT * FROM users WHERE role = \"student\" AND class_id = ?').all(classId);
   const teamRows = db.prepare('SELECT * FROM teams WHERE class_id = ?').all(classId);
-  const perStudent = students.map(s => ({ studentId: s.id, name: s.name, ...getStudentTotals(s.id) }));
+  const perStudent = students.map(s => ({ studentId: s.id, name: s.name, teamId: s.team_id, ...getStudentTotals(s.id) }));
   const classMinutes = perStudent.reduce((sum, s) => sum + s.totalMinutes, 0);
   const classStars = calculateStarsFromMinutes(classMinutes);
   const perTeam = teamRows.map(t => {

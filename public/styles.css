@@ -20,3 +20,10 @@ button.secondary{ background:#232b36; color:var(--text); border:1px solid #2f3a4
 .table th,.table td{ padding:8px 10px; border-bottom:1px solid #232b31 }
 .table th{ text-align:left; color:var(--muted) }
 
+.big-start{ font-size:18px; padding:14px 18px; border-radius:999px }
+.timer-display{ font-size:28px; font-weight:700; letter-spacing:1px; min-width:96px; text-align:center }
+.avatars{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+.avatar{ width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2px solid rgba(0,0,0,0.15) }
+.small{ font-size:12px; padding:6px 8px }
+.reward-item{ align-items:center }
+

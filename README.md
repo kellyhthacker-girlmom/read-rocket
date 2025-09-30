@@ -34,7 +34,8 @@ API Overview
 - GET `/api/auth/me` → returns `{ user }` for current token
 - GET `/api/logs` → list logs visible to current user
 - POST `/api/logs` → create reading log (student or parent)
-- POST `/api/logs/:id/approve` → approve/reject (teacher)
+- POST `/api/logs/:id/approve` → approve/reject (teacher or parent of student)
+- PUT `/api/logs/:id` → edit pending log (student self or parent)
 - GET `/api/summary/student/:studentId` → totals, stars, badges
 - GET `/api/summary/class/:classId` → class totals, per-student/team, goal progress
 - GET `/api/summary/team/:teamId` → team totals and goal progress
@@ -56,6 +57,15 @@ Notes
 -----
 
 - This demo uses a very simple header-based auth via `x-user-id` for ease of testing. Replace with real auth for production.
+
+MVP Features Implemented
+------------------------
+
+- Kid view: Big Start timer, quick add minutes/pages, streaks, badges
+- Privacy-first avatars: animal + color, no public names; class/team avatars are anonymous
+- Team/Class goal bar using goals table and progress service
+- Parent view: PIN lock, approve/reject pending logs, edit pending logs, set simple family rewards tracked locally
+- Teacher view: class totals, team summaries, approval queue
 
 # Read Rocket
 MVP for a kids’ readathon coach app
