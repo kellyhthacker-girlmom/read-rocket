@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Stars ⭐ - Track Your Reading Adventure!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Onboarding Screen -->
+        <div id="onboarding-screen" class="screen active">
+            <div class="onboarding-container">
+                <h1>🌟 Welcome to Reading Stars! 🌟</h1>
+                <p class="subtitle">Choose your reading buddy!</p>
+                
+                <div class="avatar-picker">
+                    <h3>Pick an Animal:</h3>
+                    <div class="animal-grid" id="animal-picker">
+                        <button class="avatar-btn" data-animal="fox">🦊 Fox</button>
+                        <button class="avatar-btn" data-animal="bear">🐻 Bear</button>
+                        <button class="avatar-btn" data-animal="owl">🦉 Owl</button>
+                        <button class="avatar-btn" data-animal="cat">🐱 Cat</button>
+                        <button class="avatar-btn" data-animal="dog">🐶 Dog</button>
+                        <button class="avatar-btn" data-animal="bunny">🐰 Bunny</button>
+                        <button class="avatar-btn" data-animal="dragon">🐲 Dragon</button>
+                        <button class="avatar-btn" data-animal="unicorn">🦄 Unicorn</button>
+                    </div>
+                    
+                    <h3>Pick a Color:</h3>
+                    <div class="color-grid" id="color-picker">
+                        <button class="color-btn" data-color="rainbow" style="background: linear-gradient(45deg, #ff6b6b, #ffd93d, #6bcf7f, #4d96ff, #9d84ff);">Rainbow</button>
+                        <button class="color-btn" data-color="sunset" style="background: linear-gradient(45deg, #ff6b6b, #ffa500);">Sunset</button>
+                        <button class="color-btn" data-color="ocean" style="background: linear-gradient(45deg, #4d96ff, #6bcf7f);">Ocean</button>
+                        <button class="color-btn" data-color="galaxy" style="background: linear-gradient(45deg, #9d84ff, #ff6b6b);">Galaxy</button>
+                        <button class="color-btn" data-color="forest" style="background: linear-gradient(45deg, #6bcf7f, #2d8659);">Forest</button>
+                        <button class="color-btn" data-color="golden" style="background: linear-gradient(45deg, #ffd93d, #ff9a3d);">Golden</button>
+                    </div>
+                    
+                    <div class="avatar-preview" id="avatar-preview">
+                        <p>Your reading buddy will appear here!</p>
+                    </div>
+                    
+                    <button id="start-reading-btn" class="big-btn" disabled>Start My Reading Journey! 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kid View -->
+        <div id="kid-screen" class="screen">
+            <div class="header">
+                <div class="user-info">
+                    <div class="avatar-display" id="kid-avatar"></div>
+                    <div class="stats-quick">
+                        <div class="stars-display">⭐ <span id="total-stars">0</span> Stars</div>
+                        <div class="streak-display">🔥 <span id="streak-count">0</span> Day Streak</div>
+                    </div>
+                </div>
+                <button class="view-toggle-btn" id="switch-to-parent">👨‍👩‍👧 Parent View</button>
+            </div>
+
+            <div class="main-content">
+                <!-- Big Timer Section -->
+                <div class="timer-section card">
+                    <h2>📚 Reading Time</h2>
+                    <div class="timer-display" id="timer-display">00:00</div>
+                    <div class="timer-controls">
+                        <button class="big-btn start-btn" id="start-timer">Start Reading! 📖</button>
+                        <button class="big-btn stop-btn hidden" id="stop-timer">Finish Reading ✓</button>
+                    </div>
+                    
+                    <div class="quick-add">
+                        <p>Or quickly add:</p>
+                        <div class="quick-add-btns">
+                            <input type="number" id="manual-minutes" placeholder="Minutes" min="1" max="300">
+                            <input type="number" id="manual-pages" placeholder="Pages" min="1" max="500">
+                            <button class="btn-primary" id="quick-add-btn">Add Time ⚡</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Badges Section -->
+                <div class="badges-section card">
+                    <h2>🏆 Your Badges</h2>
+                    <div class="badges-grid" id="badges-grid">
+                        <!-- Badges will be added here -->
+                    </div>
+                </div>
+
+                <!-- Team Goal Section -->
+                <div class="team-section card">
+                    <h2>🎯 Team Reading Goal</h2>
+                    <p class="team-subtitle">Your class/family goal: 1000 minutes this month!</p>
+                    <div class="goal-bar">
+                        <div class="goal-progress" id="goal-progress" style="width: 0%;">
+                            <span id="goal-text">0 / 1000 min</span>
+                        </div>
+                    </div>
+                    <div class="team-avatars" id="team-avatars">
+                        <!-- Team member avatars will appear here -->
+                    </div>
+                </div>
+
+                <!-- Reading Log -->
+                <div class="log-section card">
+                    <h2>📝 My Reading Log</h2>
+                    <div class="log-list" id="reading-log">
+                        <p class="empty-state">Start reading to see your log!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent/Teacher View -->
+        <div id="parent-screen" class="screen">
+            <div class="header">
+                <h1>👨‍👩‍👧 Parent & Teacher Dashboard</h1>
+                <button class="view-toggle-btn" id="switch-to-kid">👧 Kid View</button>
+            </div>
+
+            <div class="main-content parent-content">
+                <!-- Pending Approvals -->
+                <div class="card">
+                    <h2>✓ Approve Reading Logs</h2>
+                    <div class="pending-logs" id="pending-logs">
+                        <p class="empty-state">No logs pending approval!</p>
+                    </div>
+                </div>
+
+                <!-- Rewards Management -->
+                <div class="card">
+                    <h2>🎁 Rewards & Milestones</h2>
+                    <div class="rewards-setup">
+                        <div class="reward-item">
+                            <input type="number" id="reward-stars-1" placeholder="Stars needed" value="50">
+                            <input type="text" id="reward-name-1" placeholder="Reward name" value="Movie Night 🎬">
+                            <button class="btn-small save-reward" data-reward="1">Save</button>
+                        </div>
+                        <div class="reward-item">
+                            <input type="number" id="reward-stars-2" placeholder="Stars needed" value="100">
+                            <input type="text" id="reward-name-2" placeholder="Reward name" value="Pick Dinner 🍕">
+                            <button class="btn-small save-reward" data-reward="2">Save</button>
+                        </div>
+                        <div class="reward-item">
+                            <input type="number" id="reward-stars-3" placeholder="Stars needed" value="200">
+                            <input type="text" id="reward-name-3" placeholder="Reward name" value="Extra Screen Time ⏰">
+                            <button class="btn-small save-reward" data-reward="3">Save</button>
+                        </div>
+                    </div>
+                    
+                    <div class="active-rewards" id="active-rewards">
+                        <h3>Current Rewards Progress:</h3>
+                        <div id="rewards-list"></div>
+                    </div>
+                </div>
+
+                <!-- Team Management -->
+                <div class="card">
+                    <h2>👥 Team Settings</h2>
+                    <div class="team-settings">
+                        <label>Monthly Team Goal (minutes):</label>
+                        <input type="number" id="team-goal-input" value="1000" min="100" max="10000">
+                        <button class="btn-primary" id="save-team-goal">Update Goal</button>
+                    </div>
+                    
+                    <div class="team-members-list">
+                        <h3>Team Members:</h3>
+                        <div id="team-members-display"></div>
+                    </div>
+                </div>
+
+                <!-- All Logs -->
+                <div class="card">
+                    <h2>📊 All Reading Logs</h2>
+                    <div class="all-logs" id="all-logs">
+                        <!-- All logs will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Modal -->
+    <div id="celebration-modal" class="modal hidden">
+        <div class="modal-content celebration">
+            <h2 id="celebration-title">🎉 Amazing!</h2>
+            <p id="celebration-message"></p>
+            <button class="big-btn" id="close-celebration">Awesome!</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
